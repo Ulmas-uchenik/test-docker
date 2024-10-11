@@ -1,0 +1,40 @@
+services:
+  app:
+    image: rest-api
+    container_name: app
+    expose:
+      - '80'
+    ports:
+      - '8080:80'
+    environment:
+      DB_USER: rootUser
+      DB_PASSWORD: rootPassword
+      DB_URL: jdbc:postgresql://db:5432/rootDbName
+    depends_on:
+      - db
+
+  pgadmin:
+    container_name: pg-admin
+    image: 'dpage/pgadmin4'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin12@admin.com
+      PGADMIN_DEFAULT_PASSWORD: rootPassword
+    ports:
+      - '5050:80'
+  db:
+    image: 'postgres'
+    container_name: db
+    expose:
+      - '5432'
+#    network_mode: 'host'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: rootUser
+      POSTGRES_PASSWORD: rootPassword
+      POSTGRES_DB: rootDbName
+      DB_USER: childrenUser
+      DB_PASSWORD: childrenPassword
+      DB_NAME: childrenName
+
+
